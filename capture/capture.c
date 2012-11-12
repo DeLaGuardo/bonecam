@@ -193,7 +193,8 @@ static void mainloop(void)
 	}
 	count = frame_count;
 
-	while (count-- > 0 || infinit_count) {
+	while (infinit_count || count-- > 0) {
+		// printf("%u\n", count);
 		for (;; ) {
 			fd_set fds;
 			struct timeval tv;
@@ -604,7 +605,7 @@ static const struct option
 	{ "userp",  no_argument,       NULL, 'u' },
 	{ "output", no_argument,       NULL, 'o' },
 	{ "format", no_argument,       NULL, 'f' },
-	{ "count",  no_argument, 			 NULL, 'c' },
+	{ "count",  optional_argument, NULL, 'c' },
 	{ 0, 0, 0, 0 }
 };
 
