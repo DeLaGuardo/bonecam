@@ -49,8 +49,9 @@ struct buffer          *buffers;
 static unsigned int n_buffers;
 static int out_buf;
 static int force_format;
-static int frame_count = 200;
+static int frame_count = 0;
 static int frame_number = 0;
+static int infinit_count = 0;
 
 static void errno_exit(const char *s)
 {
@@ -187,9 +188,12 @@ static void mainloop(void)
 {
 	unsigned int count;
 
+	if (frame_count == 0) {
+		infinit_count = 1;
+	}
 	count = frame_count;
 
-	while (count-- > 0) {
+	while (count-- > 0 || infinit_count) {
 		for (;; ) {
 			fd_set fds;
 			struct timeval tv;
@@ -600,7 +604,7 @@ static const struct option
 	{ "userp",  no_argument,       NULL, 'u' },
 	{ "output", no_argument,       NULL, 'o' },
 	{ "format", no_argument,       NULL, 'f' },
-	{ "count",  required_argument, NULL, 'c' },
+	{ "count",  no_argument, 			 NULL, 'c' },
 	{ 0, 0, 0, 0 }
 };
 
